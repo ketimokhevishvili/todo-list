@@ -1,11 +1,12 @@
-import listHook from '../hook/listHook.ts';
+import listHook from '../hook/listHook.ts'
+import ListDone from "./ListDone.tsx";
 
 
 const ListView = () => {
     const hook = listHook()
     return (
-     <div className='mt-5'>
-         <form onSubmit={hook.getListSubmit}>
+     <div>
+         <form onSubmit={hook.getListSubmit} className='mt-5'>
              <div className='d-flex justify-content-center align-items-center'>
                  <input
                      className='input'
@@ -18,14 +19,26 @@ const ListView = () => {
          </form>
          <div className='ingredients-list'>
              <h3> დამატებული ინგრედიენტები: </h3>
-             <ul>
+             <div className='ingredients'>
                  {hook.list.map((item, index) => {
-                     return <li key={index}>{item}</li>;
+                     return (
+                         <div  key={index}>
+                             <div>
+                                 <div className='d-flex'>
+                                     <input
+                                         type="checkbox"
+                                         checked={false}
+                                         onChange={ () => hook.handleCheckboxChange(index)}
+                                     />
+                                     <label style={{marginLeft: 10}}>{item.text}</label>
+                                 </div>
+                             </div>
+                         </div>
+                     )
                  })}
-             </ul>
+                 <ListDone deleteListItem={hook.deleteListItem} checkedItems={hook.checkedItems} />
+             </div>
          </div>
-
-
      </div>
     )
 }
